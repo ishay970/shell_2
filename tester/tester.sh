@@ -191,6 +191,10 @@ run_part_2_tests() {
         fi
 
         echo -e "${BLUE}Cleaning up...${NC}"
+        # HACK:
+        # echo "$TEMP_DIR"
+        # exit 0
+
         rm -r "$TEMP_DIR"
 
         echo -e "${YELLOW}----------------------------------------${NC}"

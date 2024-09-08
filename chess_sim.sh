@@ -1,21 +1,7 @@
 #!/usr/bin/bash
-function set_initial_board()
-{
-    local board="${1}"
-    
-    board[0,0]="r"; board[0,1]="n"; board[0,2]="b"; board[0,3]="q"; board[0,4]="k"; board[0,5]="b"; board[0,6]="n"; board[0,7]="r"
-    board[1,0]="p"; board[1,1]="p"; board[1,2]="p"; board[1,3]="p"; board[1,4]="p"; board[1,5]="p"; board[1,6]="p"; board[1,7]="p"
-    board[2,0]="."; board[2,1]="."; board[2,2]="."; board[2,3]="."; board[2,4]="."; board[2,5]="."; board[2,6]="."; board[2,7]="."
-    board[3,0]="."; board[3,1]="."; board[3,2]="."; board[3,3]="."; board[3,4]="."; board[3,5]="."; board[3,6]="."; board[3,7]="."
-    board[4,0]="."; board[4,1]="."; board[4,2]="."; board[4,3]="."; board[4,4]="."; board[4,5]="."; board[4,6]="."; board[4,7]="."
-    board[5,0]="."; board[5,1]="."; board[5,2]="."; board[5,3]="."; board[5,4]="."; board[5,5]="."; board[5,6]="."; board[5,7]="."
-    board[6,0]="P"; board[6,1]="P"; board[6,2]="P"; board[6,3]="P"; board[6,4]="P"; board[6,5]="P"; board[6,6]="P"; board[6,7]="P"
-    board[7,0]="R"; board[7,1]="N"; board[7,2]="B"; board[7,3]="Q"; board[7,4]="K"; board[7,5]="B"; board[7,6]="N"; board[7,7]="R"
-}
 
 function board_to_string()
 {
-    local -n board=$1
     local output="  a b c d e f g h\n"
 
     for ((i=0; i<8; i++)); do
@@ -26,7 +12,8 @@ function board_to_string()
         output+=$((8-i))"\n"
     done
 
-    output+="  a b c d e f g h"
+    output+="  a b c d e f g h\n"
+
     echo -e "$output"
 }
 
@@ -57,7 +44,6 @@ echo "Metadata from PGN file:"
 echo "$(grep "\[" "$game_file")"
 echo
 
-
 curr_index=0
 end_index=${#uci_moves[@]}
 
@@ -73,30 +59,109 @@ declare -A board=(
 )
 
 declare -A game
-game_index=0
-for ((i=0; i<$end_index; i++)); do
-     # Get the following from uci_moves
-    from_raw=5
-    from_col=2
-    to_raw=4
-    to_col=5
-    # TODO: handle castling 4 different 
+# Set initial board:
+game[0]="$(board_to_string board)"
+game_index=1
 
-    board[to_raw,to_col]="${board[from_raw,from_colcol]}"
-    board[from_raw,from_colcol]="."
-    game[game_index]="$(board_to_string board)"
+for ((i=0; i<$end_index; i++)); do
+
+    # Handle castling
+    case ${uci_moves[$i]} in
+
+    "e8g8")
+        board[0,6]="${board[0,4]}"
+        board[0,4]="."
+        board[0,5]="${board[0,7]}"
+        board[0,7]="."
+        ;;
+    "e1g1")
+        board[7,6]="${board[7,4]}"
+        board[7,4]="."
+        board[7,5]="${board[7,7]}"
+        board[7,7]="."
+        ;;
+    "e8c8")
+        board[0,2]="${board[0,4]}"
+        board[0,4]="."
+        board[0,3]="${board[0,0]}"
+        board[0,0]="."
+        ;;
+    "e1c1")
+        board[7,2]="${board[7,4]}"
+        board[7,4]="."
+        board[7,3]="${board[7,0]}"
+        board[7,0]="."
+        ;;
+    *)
+    # Get the following from uci_moves
+        from_raw=$(printf "%d\n" "'${uci_moves[$i]:0:1}")
+        from_raw=$((from_raw - 97))
+        from_col=$(("${uci_moves[$i]:1:1}"-1))
+        from_col=$((7-from_col))
+        to_raw=$(printf "%d\n" "'${uci_moves[$i]:2:1}")
+        to_raw=$((to_raw - 97))
+        to_col=$(("${uci_moves[$i]:3:1}"-1))
+        to_col=$((7-to_col))
+        to_tool="${uci_moves[$i]:4:1}"
+    
+        if [ -z "${to_tool}" ]; then
+            board[$to_col,$to_raw]="${board[$from_col,$from_raw]}"
+        else
+    # Handle the case where pown gets the the end of the board
+            board[$to_col,$to_raw]=${to_tool}
+        fi
+        board[$from_col,$from_raw]="."
+        ;;
+    esac
+    game[$game_index]="$(board_to_string board)"
     game_index=$((game_index+1))
 
 done
 
-echo "$(board_to_string board)"
-
+# Print move 0:
+echo "Move $curr_index/$end_index"
+echo "${game[$curr_index]}"
 
 while true; do
-    exit 0
+    echo "Press 'd' to move forward, 'a' to move back, 'w' to go to the start, 's' to go to the end, 'q' to quit:"
+    cmd=""
+    while [ -z "${cmd}" ]; do
+        read -n 1 cmd > /dev/null
+    done
+
+    case $cmd in
+    d)
+        curr_index=$((curr_index + 1))
+        if [ $curr_index -gt $end_index ]; then
+            echo "No more moves available."
+            curr_index=$end_index
+            continue
+        fi
+        ;;
+    a)
+        if [ $curr_index != "0" ]; then
+            curr_index=$((curr_index - 1))
+        fi
+        ;;
+    w)
+        curr_index=0
+        ;;
+    s)
+        curr_index=$end_index
+        ;;
+    q)
+        echo "Exiting."
+        echo "End of game."
+        exit 0
+        ;;
+    *)
+        echo "Invalid key pressed: $cmd"
+        continue
+        ;;
+    esac
+
+    echo "Move $curr_index/$end_index"
+    echo "${game[$curr_index]}"
+    
 done
-
-
-
-
 

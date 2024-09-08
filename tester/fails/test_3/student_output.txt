@@ -1,0 +1,118 @@
+d2d4 g8f6 c2c4 e7e6 g2g3 d7d5 f1g2 d5c4 g1f3 a7a6 f3e5 c7c5 b1a3 a8a7 d4c5 d8d1 e1d1 f8c5 a3c4 b7b5 c1e3 c5e3 c4e3 e8e7 a1c1 f6d7 e5d3 c8b7 g2b7 a7b7 c1c3 b7b6 d1d2 b6c6 h1c1 h8c8 c3c6
+Metadata from PGN file:
+[Event "Hastings8384"]
+[Site "Hastings"]
+[Date "1983.??.??"]
+[Round "2"]
+[White "Alburt, Lev O"]
+[Black "Csom, Istvan"]
+[Result "1/2-1/2"]
+[WhiteElo "2570"]
+[BlackElo "2500"]
+[ECO "E04"]
+
+Move 0/37
+  a b c d e f g h
+8 r n b q k b n r 8
+7 p p p p p p p p 7
+6 . . . . . . . . 6
+5 . . . . . . . . 5
+4 . . . . . . . . 4
+3 . . . . . . . . 3
+2 P P P P P P P P 2
+1 R N B Q K B N R 1
+  a b c d e f g h
+
+Move 37/37
+  a b c d e f g h
+8 . . r . . . . . 8
+7 p p . k p p . p 7
+6 . . . n n . p . 6
+5 . . . . . . . . 5
+4 . P . . . . . . 4
+3 P . r . P . . . 3
+2 . . . N K P P P 2
+1 . N R . . . . . 1
+  a b c d e f g h
+
+Invalid key pressed: 
+
+Invalid key pressed: o
+
+Invalid key pressed: 
+
+No more moves available.
+
+Invalid key pressed: 
+
+Move 37/37
+  a b c d e f g h
+8 . . r . . . . . 8
+7 p p . k p p . p 7
+6 . . . n n . p . 6
+5 . . . . . . . . 5
+4 . P . . . . . . 4
+3 P . r . P . . . 3
+2 . . . N K P P P 2
+1 . N R . . . . . 1
+  a b c d e f g h
+
+Invalid key pressed: 
+
+Move 36/37
+  a b c d e f g h
+8 . . r . . . . . 8
+7 p p . k p p . p 7
+6 . . r n n . p . 6
+5 . . . . . . . . 5
+4 . P . . . . . . 4
+3 P . R . P . . . 3
+2 . . . N K P P P 2
+1 . N R . . . . . 1
+  a b c d e f g h
+
+Invalid key pressed: 
+
+Move 35/37
+  a b c d e f g h
+8 . . r . . . . . 8
+7 p p . k p p . p 7
+6 . . r n n . p . 6
+5 . . . . . . . . 5
+4 . P . . . . . . 4
+3 P . R . P . . . 3
+2 . . . N K P P P 2
+1 . N . . . . . R 1
+  a b c d e f g h
+
+Invalid key pressed: 
+
+Move 34/37
+  a b c d e f g h
+8 . . . . . . . r 8
+7 p p . k p p . p 7
+6 . . r n n . p . 6
+5 . . . . . . . . 5
+4 . P . . . . . . 4
+3 P . R . P . . . 3
+2 . . . N K P P P 2
+1 . N . . . . . R 1
+  a b c d e f g h
+
+Invalid key pressed: 
+
+Move 33/37
+  a b c d e f g h
+8 . . . . . . . r 8
+7 p p . k p p . p 7
+6 . . r n n . p . 6
+5 . . . . . . . . 5
+4 . P . . . . . . 4
+3 P R . . P . . . 3
+2 . . . N K P P P 2
+1 . N . . . . . R 1
+  a b c d e f g h
+
+Invalid key pressed: 
+
+Exiting.
